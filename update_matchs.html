@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Match</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('stadium.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h2 {
+            text-shadow: 2px 2px 5px rgba(0, 255, 255, 0.8);
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(100px);
+            padding: 20px;
+            border-radius: 15px;
+            width: 60%;
+            margin: auto;
+            box-shadow: 0px 0px 15px rgba(0, 255, 255, 0.6);
+        }
+        .scoreboard {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .team {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(100px);
+            padding: 20px;
+            border-radius: 15px;
+            width: 40%;
+            box-shadow: 0px 0px 10px rgba(254, 255, 255, 0.5);
+            transition: 0.3s ease;
+        }
+        .team:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 0px 20px rgba(0, 255, 255, 0.8);
+        }
+        input {
+            width: 50px;
+            text-align: center;
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            outline: none;
+            transition: 0.3s ease;
+        }
+        .update-btn {
+            background: linear-gradient(45deg, #00ff99, #0066ff);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.5);
+        }
+        .update-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 0px 20px rgba(0, 255, 255, 0.8);
+        }
+        label {
+            font-weight: bold;
+            color: #e4ebe8;
+            text-shadow: 1px 1px 5px rgba(0, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <h2>⚽ Update Match Details ⚽</h2>
+    <div class="container">
+        <label>Team 1 Name:</label>
+        <input type="text" id="team1-input" placeholder="Enter Team 1">
+        <label>Team 2 Name:</label>
+        <input type="text" id="team2-input" placeholder="Enter Team 2">
+        <button class="update-btn" onclick="updateTeams()">Update Teams</button>
+    </div>
+    
+    <h2>🏆 Match 🏆</h2>
+    <h2>⏳ Match Time ⏳: <span id="matchTime">0</span> mins</h2>
+    <button class="update-btn" onclick="startMatch()">Start Match</button>
+    <button class="update-btn" onclick="endMatch()" style="background-color: red;">End Match</button>
+    <h2 id="winnerMessage" style="color: yellow; font-size: 28px; margin-top: 20px; text-shadow: 2px 2px 5px black;"></h2>
+
+    <div class="scoreboard">
+        <div class="team">
+            <h3 id="team1Display">Team 1</h3>
+            <label>Goals:</label> <input type="number" id="score1-input" value="0">
+            <label>Touchdowns:</label> <input type="number" id="touchdowns1-input" value="0">
+            <label>Safeties:</label> <input type="number" id="safeties1-input" value="0">
+            <label>Fouls:</label> <input type="number" id="fouls1-input" value="0">
+            <h3>Points: <span id="points1">0</span></h3>
+        </div>
+        <div class="team">
+            <h3 id="team2Display">Team 2</h3>
+            <label>Goals:</label> <input type="number" id="score2-input" value="0">
+            <label>Touchdowns:</label> <input type="number" id="touchdowns2-input" value="0">
+            <label>Safeties:</label> <input type="number" id="safeties2-input" value="0">
+            <label>Fouls:</label> <input type="number" id="fouls2-input" value="0">
+            <h3>Points: <span id="points2">0</span></h3>
+        </div>
+    </div>
+
+    <button class="update-btn" onclick="updateMatch()">Update Match</button>
+
+    <script>
+        let matchStarted = false;
+        let matchTime = 0;
+        let timer = null;
+
+        function startMatch() {
+            if (!timer) {
+                matchStarted = true;
+                timer = setInterval(updateMatchTime, 5000);
+                alert("⚽ Match Started! Let the game begin!");
+            }
+        }
+
+        function endMatch() {
+            if (timer) {
+                clearInterval(timer);
+                timer = null;
+                matchStarted = false;
+                updateMatch();
+                setTimeout(showWinner, 500);
+                alert("🏁 Match has ended!");
+            }
+        }
+
+        function updateMatchTime() {
+            if (matchTime < 90) {
+                matchTime += 5;
+                document.getElementById("matchTime").textContent = matchTime;
+            } else {
+                endMatch();
+            }
+        }
+
+        function updateTeams() {
+            let team1 = document.getElementById("team1-input").value;
+            let team2 = document.getElementById("team2-input").value;
+
+            if (team1 && team2) {
+                document.getElementById("team1Display").textContent = team1;
+                document.getElementById("team2Display").textContent = team2;
+            }
+        }
+
+        function updateMatch() {
+            if (!matchStarted) {
+                alert("🚨 Please start the match first! 🚨");
+                return;
+            }
+
+            let points1 = calculatePoints("score1-input", "touchdowns1-input", "safeties1-input", "fouls1-input");
+            let points2 = calculatePoints("score2-input", "touchdowns2-input", "safeties2-input", "fouls2-input");
+
+            document.getElementById("points1").textContent = points1;
+            document.getElementById("points2").textContent = points2;
+        }
+
+        function calculatePoints(scoreId, tdId, safetyId, foulId) {
+            return (parseInt(document.getElementById(scoreId).value) || 0) * 3 +
+                   (parseInt(document.getElementById(tdId).value) || 0) * 6 +
+                   (parseInt(document.getElementById(safetyId).value) || 0) * 2 -
+                   (parseInt(document.getElementById(foulId).value) || 0);
+        }
+
+
+
+        function endMatch() {
+        if (timer) {
+            clearInterval(timer);
+            timer = null;
+            matchStarted = false;
+            
+            // Ensure scores are updated before showing winner
+            updateMatch();
+            
+            setTimeout(() => {
+                showWinner();
+                alert("🏁 Match has ended!");
+            }, 500); // Small delay to ensure points update properly
+        }
+    }
+    
+    function showWinner() {
+        let points1 = parseInt(document.getElementById("points1").textContent) || 0;
+        let points2 = parseInt(document.getElementById("points2").textContent) || 0;
+        let team1 = document.getElementById("team1Display").textContent;
+        let team2 = document.getElementById("team2Display").textContent;
+        let winnerMessage = document.getElementById("winnerMessage");
+    
+        if (points1 > points2) {
+            winnerMessage.textContent = `🏆 ${team1} Wins! 🎉`;
+        } else if (points1 < points2) {
+            winnerMessage.textContent = `🏆 ${team2} Wins! 🎉`;
+        } else {
+            winnerMessage.textContent = `🤝 It's a Draw!`;
+        }
+    }
+    </script>
+
+    
+    
+</body>
+</html>

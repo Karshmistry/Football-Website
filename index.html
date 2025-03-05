@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="Football Logo" class="logo">
+        <h1>Welcome to Football World</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="teams.html">Teams</a></li>
+                <li><a href="player.html">Players</a></li>
+                <li><a href="#" onclick="toggleMatches()">Matches</a></li>
+                <li><a href="#" onclick="toggleLiveScores()">Live Scores</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Matches Section -->
+    <section id="matches-section" style="display: none;">
+        <h2 style="text-align: center; color: white;">Update Match Details</h2>
+       
+
+        <h2 style="text-align: center; color: white;">Live Match:</h2>
+        
+
+        
+
+       
+
+        <!-- Embedded Update Match Page -->
+        <iframe id="matches-frame" src="update_matchs.html" width="100%" height="600px" style="border: none;"></iframe>
+    </section>
+
+    <!-- Live Scores Section -->
+    <section id="live-scores-section" style="display: none; text-align: center;">
+        <h2 style="color: white;">Live Match:</h2>
+        <p id="live-match-details" style="color: gold; font-size: 20px; font-weight: bold;">
+            No match currently running.
+        </p>
+    </section>
+
+    <main>
+        <section class="hero">
+            <h2>Welcome to the Ultimate Football Hub</h2>
+            <p>Your #1 source for live scores, team stats, and news.</p>
+          
+            <a href="#" class="btn" onclick="showUnavailablePopup()">Explore More</a>
+    <script>
+        function showUnavailablePopup() {
+            alert("🚧 This feature is currently unavailable. Stay tuned! 🚧");
+        }
+    </script>
+        </section>
+        </section>
+
+        <h2>Latest Football News</h2>
+        <p>Stay updated with the latest football news and match updates.</p>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Football World. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        let matchStarted = false; // Variable to track match state
+
+        function toggleLiveScores() {
+            let liveScoresSection = document.getElementById("live-scores-section");
+            let matchesSection = document.getElementById("matches-section");
+
+            matchesSection.style.display = "none"; // Hide matches section
+            liveScoresSection.style.display = (liveScoresSection.style.display === "none") ? "block" : "none";
+
+            updateLiveScores(); // Update live scores
+        }
+
+        function toggleMatches() {
+            let matchesSection = document.getElementById("matches-section");
+            let liveScoresSection = document.getElementById("live-scores-section");
+
+            liveScoresSection.style.display = "none"; // Hide live scores section
+            matchesSection.style.display = (matchesSection.style.display === "none") ? "block" : "none";
+        }
+
+        function updateLiveScores() {
+            let team1 = document.getElementById("team1-name").textContent;
+            let team2 = document.getElementById("team2-name").textContent;
+            let score1 = document.getElementById("score1").textContent;
+            let score2 = document.getElementById("score2").textContent;
+
+            let liveMatchDetails = document.getElementById("live-match-details");
+
+            if (team1 && team2) {
+                liveMatchDetails.innerHTML = `${team1} vs ${team2} - Score: ${score1} - ${score2}`;
+            } else {
+                liveMatchDetails.innerHTML = "No match currently running.";
+            }
+        }
+
+        function startMatch() {
+            matchStarted = true; // Set match as started
+            updateLiveScores();
+            alert("Match Started!");
+        }
+
+        function endMatch() {
+            matchStarted = false; // Set match as ended
+            document.getElementById("live-match-details").innerHTML = "Match Ended";
+            alert("Match has ended!");
+        }
+
+        function addPoints(team) {
+            if (!matchStarted) {
+                alert("🚨 Please start the match first! 🚨");
+                return;
+            }
+
+            let scoreElement = team === 1 ? document.getElementById("score1") : document.getElementById("score2");
+            let currentScore = parseInt(scoreElement.textContent);
+            scoreElement.textContent = currentScore + 1;
+
+            updateLiveScores();
+        }
+    </script>
+</body>
+</html>

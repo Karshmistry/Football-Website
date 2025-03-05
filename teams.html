@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Football Teams</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #403e3e;
+            color: white;
+            text-align: center;
+        }
+        
+        .teams-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .team-card {
+            background: #1f1c1c;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .team-card:hover {
+            transform: scale(1.05);
+        }
+
+        .team-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .home-button {
+            text-decoration: none;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        footer {
+            margin-top: 30px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+    <header style="background-color: #007bff; padding: 15px; text-align: center;">
+        <h1>🏆 Top Football Teams</h1>
+    </header>
+
+    <section id="teams-section">
+        <div class="teams-container" id="teams-list">
+            <!-- Teams will be dynamically added here -->
+        </div>
+    </section>
+
+    <!-- Home Button -->
+    <a href="index.html" class="home-button">🏠 Home</a>
+
+    <footer>
+        <p>&copy; 2025 Football World. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Sample team details
+        const teamDetails = {
+            "Real Madrid": { logo: "real_madrid.png", coach: "Carlo Ancelotti", stadium: "Santiago Bernabéu", founded: 1902 },
+            "Barcelona": { logo: "barcelona.png", coach: "Xavi Hernández", stadium: "Camp Nou", founded: 1899 },
+            "Manchester United": { logo: "man_utd.png", coach: "Erik ten Hag", stadium: "Old Trafford", founded: 1878 },
+            "Liverpool": { logo: "liverpool.png", coach: "Jürgen Klopp", stadium: "Anfield", founded: 1892 },
+            "Bayern Munich": { logo: "bayern.png", coach: "Thomas Tuchel", stadium: "Allianz Arena", founded: 1900 }
+        };
+
+        function loadTeams() {
+            let teams = JSON.parse(localStorage.getItem("teams")) || [];
+            let teamsList = document.getElementById("teams-list");
+
+            teamsList.innerHTML = ""; // Clear previous data
+
+            if (teams.length === 0) {
+                teamsList.innerHTML = "<p style='color: gray;'>No teams available. Add teams in Matches section.</p>";
+            } else {
+                teams.forEach(team => {
+                    let details = teamDetails[team] || { logo: "default_logo.png", coach: "Unknown", stadium: "Unknown", founded: "N/A" };
+                    
+                    let teamCard = document.createElement("div");
+                    teamCard.classList.add("team-card");
+
+                    teamCard.innerHTML = `
+                        <img src="images/${details.logo}" alt="${team}" class="team-logo">
+                        <h3>${team}</h3>
+                        <p><b>Coach:</b> ${details.coach}</p>
+                        <p><b>Stadium:</b> ${details.stadium}</p>
+                        <p><b>Founded:</b> ${details.founded}</p>
+                    `;
+
+                    teamsList.appendChild(teamCard);
+                });
+            }
+        }
+
+        // Load teams when page loads
+        window.onload = loadTeams;
+    </script>
+
+</body>
+</html>
