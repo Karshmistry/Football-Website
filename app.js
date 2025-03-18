@@ -34,6 +34,18 @@ app.get('/startMatch', (req, res) => {
     console.log("hey");
     res.render("update_match.ejs");
 });
+app.get('/teams', (req, res) => {
+    console.log("hey");
+    res.render("teams.ejs");
+});
+app.get('/about', (req, res) => {
+    console.log("hey");
+    res.render("about.ejs");
+});
+app.get('/players', (req, res) => {
+    console.log("hey");
+    res.render("player.ejs");
+});
 app.get('/footBall', (req, res) => {
     // Render the intermediate page
     res.render('footBall.ejs');
@@ -56,7 +68,7 @@ app.post('/match/update/:id', async (req, res) => {
     console.log("✅ POST /match/update/:id hit");
     console.log("Match ID:", req.params.id);
     console.log("Request Body:", req.body);
-    
+
     try {
         let { goals1, goals2, touchdowns1, touchdowns2, safeties1, safeties2, fouls1, fouls2, team1, team2 } = req.body;
 
@@ -72,14 +84,18 @@ app.post('/match/update/:id', async (req, res) => {
 
         let totalPoints1 = (goals1 * 3) + (touchdowns1 * 6) + (safeties1 * 2) - fouls1;
         let totalPoints2 = (goals2 * 3) + (touchdowns2 * 6) + (safeties2 * 2) - fouls2;
-        
+
         let winner = "Draw";
         if (totalPoints1 > totalPoints2) winner = "Team 1 Wins";
         else if (totalPoints2 > totalPoints1) winner = "Team 2 Wins";
 
-        const updatedFields = { totalPoints1, totalPoints2, winner };
+        // ✅ Update ALL fields, including match stats
+        const updatedFields = {
+            goals1, goals2, touchdowns1, touchdowns2, safeties1, safeties2, fouls1, fouls2,
+            totalPoints1, totalPoints2, winner
+        };
 
-        // Update team names if provided
+        // ✅ Also update team names if provided
         if (team1) updatedFields.team1 = team1;
         if (team2) updatedFields.team2 = team2;
 

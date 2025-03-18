@@ -10,7 +10,7 @@ body {
 
 
 header {
-    background-color: #0776d1;
+    background-color: rgb(4, 118, 138);
     color: white;
     padding: 15px;
     .logo {
@@ -318,6 +318,7 @@ nav ul {
     list-style: none;
     padding: 0;
     background: #007bff;
+    
     text-align: center;
 }
 

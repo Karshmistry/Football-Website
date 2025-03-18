@@ -98,7 +98,24 @@
     <script>
         let players = [];
 
-        function addPlayer() {
+       async function  addPlayer() {
+        console.log("inside the functiion ");
+            const url = 'https://api-football-v1.p.rapidapi.com/v3/players?id=276&season=2020';
+const options = {
+	method: 'GET',
+	headers: {
+		'x-rapidapi-key': '0d30ebd190msh83aab47ff3798e3p129843jsn68ed80e40a52',
+		'x-rapidapi-host': 'api-football-v1.p.rapidapi.com'
+	}
+};
+
+try {
+	const response = await fetch(url, options);
+	const result = await response.text();
+	console.log(result);
+} catch (error) {
+	console.error(error);
+}
             let name = prompt("Enter Player Name:");
             let position = prompt("Enter Player Position:");
             let team = prompt("Enter Player Team:");
