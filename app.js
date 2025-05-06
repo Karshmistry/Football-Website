@@ -2,8 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const Match = require('./models/Match');
+const userModel = require("./models/user");
 const app = express();
-
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const cookieParser = require('cookie-parser');
 const path = require('path');
@@ -11,30 +13,89 @@ const bodyParser = require('body-parser');
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 
 // Connect to MongoDB (Hardcoded Connection String for Local Use)
 mongoose.connect("mongodb://127.0.0.1:27017/FootBallDb").then(() => console.log("✅ MongoDB Connected"))
-  .catch(err => console.error("❌ MongoDB Connection Error:", err));
+    .catch(err => console.error("❌ MongoDB Connection Error:", err));
 
-  app.get('/test', (req, res) => {
+app.get('/test', (req, res) => {
     console.log("✅ PUT /test hit successfully");
     res.send("Test route working!");
 });
-  app.get('/', (req, res) => {
+app.get('/', (req, res) => {
     console.log("hey");
     res.render("index");
 });
-app.get('/startMatch', (req, res) => {
+app.get('/loginpage', (req, res) => {
+    res.render('login.ejs'); // Renders login.ejs
+});
+app.post('/loginpage', (req, res) => {
+    res.render('login.ejs'); // Renders login.ejs
+});
+app.post('/register', async (req, res) => {
+    let { username, email, password } = req.body;
+    let user = await userModel.findOne({ email })
+    if (user) return res.status(500).send({ message: "user already exists" })
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(password, salt, async (err, hash) => {
+            let user = await userModel.create({
+                username,
+                email,
+                password: hash
+            });
+            let token = jwt.sign({ email: email, userid: user._id }, "shhhh");
+            res.cookie("token", token);
+            res.redirect('/'); 
+        })
+    });
+})
+app.post('/logining', async (req, res) => {
+    console.log("he");
+    let { email, password } = req.body;
+    let user = await userModel.findOne({ email });
+
+    // Check if user exists
+    if (!user) return res.status(404).send("User  not found");
+
+    // Compare password
+    bcrypt.compare(password, user.password, (err, result) => {
+        if (err) return res.status(500).send("Error comparing passwords");
+        if (result) {
+
+            let token = jwt.sign({ email: email, userid: user._id }, "shhhh");
+            res.cookie("token", token);
+            res.redirect('/');      //res.status(200).send("You can login");
+        } else {
+            res.status(401).send("Incorrect password");
+        }
+    });
+});
+app.get('/logout', (req, res) => {
+    res.cookie("token", "");
+    res.redirect('/loginpage');
+});
+
+function isLoggedIn(req, res, next) {
+    if (req.cookies.token === "") res.send("you must be logged in");// when verified after checcking orther things res.redirect('/loginpage');
+    else {
+        let data = jwt.verify(req.cookies.token, "shhhh");
+        req.user = data;
+        next();
+    }
+
+}
+
+app.get('/startMatch', isLoggedIn, (req, res) => {
     console.log("hey");
     res.render("update_match.ejs");
 });
-app.get('/teams', (req, res) => {
+app.get('/teams', isLoggedIn, (req, res) => {
     console.log("hey");
     res.render("teams.ejs");
 });
@@ -42,11 +103,11 @@ app.get('/about', (req, res) => {
     console.log("hey");
     res.render("about.ejs");
 });
-app.get('/players', (req, res) => {
+app.get('/players', isLoggedIn, (req, res) => {
     console.log("hey");
     res.render("player.ejs");
 });
-app.get('/footBall', (req, res) => {
+app.get('/footBall', isLoggedIn, (req, res) => {
     // Render the intermediate page
     res.render('footBall.ejs');
 });
@@ -115,6 +176,16 @@ app.get('/match/:id', async (req, res) => {
         res.json(match);
     } catch (error) {
         res.status(500).json({ error: error.message });
+    }
+});
+
+app.get('/localTeams', isLoggedIn, async (req, res) => {
+    try {
+        let liveMatches = await Match.find({ status: "Live" });
+        res.render("localTeams", { liveMatches });
+    } catch (error) {
+        console.error("❌ Error fetching live matches:", error);
+        res.status(500).send("Server Error");
     }
 });
 

@@ -14,8 +14,12 @@ const matchSchema = new mongoose.Schema({
     totalPoints1: { type: Number, default: 0 },
     totalPoints2: { type: Number, default: 0 },
     matchTime: { type: Number, default: 0 },
-    winner: { type: String, default: "" }
+    winner: { type: String, default: "" },
+    status: { type: String, default: "Live" }
 }, { timestamps: true });
+
+
+    
 
 const Match = mongoose.model("Match", matchSchema);
 

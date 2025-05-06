@@ -1,0 +1,80 @@
+body {
+    background: #121212;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #ffc107;
+}
+
+.match-card {
+    background: #1e1e2f;
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.match-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+}
+
+.match-header {
+    color: #00d1ff;
+}
+
+.vs {
+    color: #f1f1f1;
+    font-weight: bold;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.points {
+    font-size: 16px;
+    font-weight: bold;
+    color: #00ff85;
+}
+
+.footer {
+    background-color: #1f1f1f;
+    color: #aaa;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    border-top: 1px solid #333;
+}
+
+.footer a {
+    color: #00bfff;
+    text-decoration: none;
+}
+
+.footer .brand {
+    color: #ff4081;
+}
+
+.animate-fade {
+    animation: fadeIn 0.7s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
