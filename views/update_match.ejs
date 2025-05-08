@@ -9,7 +9,7 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: url("/images/stadium.jpg") no-repeat center center fixed;
+            background: url("/images/stadium6.jpg") no-repeat center center fixed;
             background-size: cover;
             color: white;
             text-align: center;
@@ -17,7 +17,7 @@
             padding: 0;
         }
         h2 {
-            text-shadow: 2px 2px 5px rgba(0, 255, 255, 0.8);
+            text-shadow: 2px 2px 5px rgba(21, 27, 27, 0.8);
         }
         .container {
             background: rgba(255, 255, 255, 0.1);
@@ -26,7 +26,7 @@
             border-radius: 15px;
             width: 60%;
             margin: auto;
-            box-shadow: 0px 0px 15px rgba(0, 255, 255, 0.6);
+            box-shadow: 0px 0px 15px rgba(237, 238, 238, 0.6);
         }
         .scoreboard {
             display: flex;
@@ -44,7 +44,7 @@
         }
         .team:hover {
             transform: scale(1.05);
-            box-shadow: 0px 0px 20px rgba(0, 255, 255, 0.8);
+            box-shadow: 0px 0px 20px rgba(254, 255, 255, 0.5);
         }
         input {
             width: 50px;
@@ -77,7 +77,7 @@
         label {
             font-weight: bold;
             color: #e4ebe8;
-            text-shadow: 1px 1px 5px rgba(0, 255, 255, 0.8);
+            text-shadow: 1px 1px 5px rgba(254, 255, 255, 0.5);
         }
     </style>
 </head>
@@ -93,27 +93,27 @@
     </div>
     
     <h2>🏆 Match 🏆</h2>
-    <h2>⏳ Match Time ⏳: <span id="matchTime">0</span> mins</h2>
+    <h2>⏳ Match Time ⏳: <span id="matchTime">0</span> mins </h2>
     <button class="update-btn" onclick="startMatch()">Start Match</button>
     <button class="update-btn" onclick="endMatch()" style="background-color: red;">End Match</button>
-    <h2 id="winnerMessage" style="color: yellow; font-size: 28px; margin-top: 20px; text-shadow: 2px 2px 5px black;"></h2>
+    <h2 id="winnerMessage" style="color: yellow; font-size: 35px; margin-top: 20px; text-shadow: 2px 2px 5px black;"></h2>
 
     <div class="scoreboard">
         <div class="team">
-            <h3 id="team1Display">Team 1</h3>
+            <h2 id="team1Display">Team 1</h3>
             <label>Goals:</label> <input type="number" id="score1-input" value="0">
             <label>Touchdowns:</label> <input type="number" id="touchdowns1-input" value="0">
             <label>Safeties:</label> <input type="number" id="safeties1-input" value="0">
             <label>Fouls:</label> <input type="number" id="fouls1-input" value="0">
-            <h3>Points: <span id="points1">0</span></h3>
+            <h2>Points: <span id="points1">0</span></h3>
         </div>
         <div class="team">
-            <h3 id="team2Display">Team 2</h3>
+            <h2 id="team2Display">Team 2</h3>
             <label>Goals:</label> <input type="number" id="score2-input" value="0">
             <label>Touchdowns:</label> <input type="number" id="touchdowns2-input" value="0">
             <label>Safeties:</label> <input type="number" id="safeties2-input" value="0">
             <label>Fouls:</label> <input type="number" id="fouls2-input" value="0">
-            <h3>Points: <span id="points2">0</span></h3>
+            <h2>Points: <span id="points2">0</span></h3>
         </div>
     </div>
 
