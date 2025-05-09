@@ -10,7 +10,7 @@
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: #1b1c1d;
+      background: #2f3032;
       color: white;
     }
   
@@ -67,7 +67,7 @@
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(28, 28, 28, 0.7);
       z-index: 1;
     }
   
@@ -154,10 +154,10 @@
     <nav>
       <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/localTeams">localTeams</a></li>
-        <li><a href="/players">Players</a></li>
+        <li><a href="/localTeams">localMatches</a></li>
+        <!-- <li><a href="/players">Players</a></li> -->
         <li><a href="/startMatch" onclick="toggleMatches()">Matches</a></li>
-        <li><a href="/footBall" onclick="toggleLiveScores()">World Of Football</a></li>
+        <li><a href="/footBall" onclick="toggleLiveScores()">Globally Live Matches</a></li>
         <li><a href="/about">About</a></li>
         <li><a href="/loginpage">Login</a></li>
       </ul>
@@ -167,7 +167,7 @@
   <section class="hero">
     <h2>Welcome to the Ultimate Football Hub</h2>
     <p>Your #1 source for live scores, team stats, and news.</p>
-    <button class="btn" onclick="showUnavailablePopup()">Explore More</button>
+    <a href ='/news'><button class="btn" >World Of Football</button></a>
 
    
 
@@ -194,9 +194,9 @@
   </footer>
 
   <script>
-    function showUnavailablePopup() {
-      alert("🚧 This feature is currently unavailable. Stay tuned! 🚧");
-    }
+    // function showUnavailablePopup() {
+    //   alert("🚧 This feature is currently unavailable. Stay tuned! 🚧");
+    // }
 
     let matchStarted = false;
 

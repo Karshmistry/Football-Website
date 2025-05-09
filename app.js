@@ -80,7 +80,9 @@ app.get('/logout', (req, res) => {
     res.cookie("token", "");
     res.redirect('/loginpage');
 });
-
+app.get('/news', (req,res) => {
+    res.render("rugbNews.ejs");
+})
 function isLoggedIn(req, res, next) {
     if (req.cookies.token === "") res.send("you must be logged in");// when verified after checcking orther things res.redirect('/loginpage');
     else {
@@ -110,6 +112,10 @@ app.get('/players', isLoggedIn, (req, res) => {
 app.get('/footBall', isLoggedIn, (req, res) => {
     // Render the intermediate page
     res.render('footBall.ejs');
+});
+app.get('/chart', isLoggedIn, (req, res) => {
+    // Render the intermediate page
+    res.render('chart.ejs');
 });
 // Create a new match
 app.post('/match', async (req, res) => {

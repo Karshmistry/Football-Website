@@ -79,6 +79,19 @@
             color: #e4ebe8;
             text-shadow: 1px 1px 5px rgba(254, 255, 255, 0.5);
         }
+        .chart-btn-container {
+    margin-top: 20px;
+}
+
+.chart-btn {
+    background: linear-gradient(45deg, #ffa500, #ff4500);
+    box-shadow: 0px 0px 12px rgba(255, 140, 0, 0.6);
+}
+
+.chart-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 0px 20px rgba(255, 165, 0, 0.9);
+}
     </style>
 </head>
 <body>
@@ -118,156 +131,331 @@
     </div>
 
     <button class="update-btn" onclick="updateMatch()">Update Match</button>
-
+<!-- 🔥 Styled View Goal Chart Button -->
+<div class="chart-btn-container">
+    <a href='/chart'>
+        <button class="update-btn chart-btn">📊 View Goal Chart</button>
+    </a>
+</div>
     <script>
-        let matchId = null; // Store match ID after creating a match
-        let matchStarted = false;
-        let matchTime = 0;
-        let timer = null;
+        // let matchId = null; // Store match ID after creating a match
+        // let matchStarted = false;
+        // let matchTime = 0;
+        // let timer = null;
     
-        // Function to create a new match
-        async function createMatch() {
-            let team1 = document.getElementById("team1-input").value;
-            let team2 = document.getElementById("team2-input").value;
+        // // Function to create a new match
+        // async function createMatch() {
+        //     let team1 = document.getElementById("team1-input").value;
+        //     let team2 = document.getElementById("team2-input").value;
     
-            if (!team1 || !team2) {
-                alert("Please enter both team names.");
-                return;
-            }
+        //     if (!team1 || !team2) {
+        //         alert("Please enter both team names.");
+        //         return;
+        //     }
     
-            try {
-                let response = await fetch("/match", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ team1, team2 })
-                });
+        //     try {
+        //         let response = await fetch("/match", {
+        //             method: "POST",
+        //             headers: { "Content-Type": "application/json" },
+        //             body: JSON.stringify({ team1, team2 })
+        //         });
     
-                let data = await response.json();
-                if (response.ok) {
-                    matchId = data.match?._id;
-                    console.log("Match Created with ID:", matchId);
-                    document.getElementById("team1Display").textContent = team1;
-                    document.getElementById("team2Display").textContent = team2;
-                    alert("Match created successfully!");
-                } else {
-                    throw new Error(data.error);
-                }
-            } catch (error) {
-                console.error("Error creating match:", error);
-            }
+        //         let data = await response.json();
+        //         if (response.ok) {
+        //             matchId = data.match?._id;
+        //             console.log("Match Created with ID:", matchId);
+        //             document.getElementById("team1Display").textContent = team1;
+        //             document.getElementById("team2Display").textContent = team2;
+        //             alert("Match created successfully!");
+        //         } else {
+        //             throw new Error(data.error);
+        //         }
+        //     } catch (error) {
+        //         console.error("Error creating match:", error);
+        //     }
+        // }
+    
+        // function startMatch() {
+        //     if (!matchId) {
+        //         alert("Please create a match first.");
+        //         return;
+        //     }
+    
+        //     if (!timer) {
+        //         matchStarted = true;
+        //         timer = setInterval(updateMatchTime, 5000);
+        //         alert("⚽ Match Started! Let the game begin!");
+        //     }
+        // }
+    
+        // function endMatch() {
+        //     if (timer) {
+        //         clearInterval(timer);
+        //         timer = null;
+        //         matchStarted = false;
+    
+        //         updateMatch();
+        //         setTimeout(() => {
+        //             showWinner();
+        //             alert("🏁 Match has ended!");
+        //         }, 500);
+        //     }
+        // }
+    
+        // function updateMatchTime() {
+        //     if (matchTime < 90) {
+        //         matchTime += 5;
+        //         document.getElementById("matchTime").textContent = matchTime;
+        //     } else {
+        //         endMatch();
+        //     }
+        // }
+    
+        // async function updateTeams() {
+        //     let team1 = document.getElementById("team1-input").value;
+        //     let team2 = document.getElementById("team2-input").value;
+    
+        //     if (!team1 || !team2) {
+        //         alert("Please enter both team names.");
+        //         return;
+        //     }
+    
+        //     if (!matchId) {
+        //         console.log("Match ID is null. Creating a new match...");
+        //         await createMatch();
+        //     }
+    
+        //     if (!matchId) {
+        //         alert("Failed to create match. Please try again.");
+        //         return;
+        //     }
+    
+        //     try {
+        //         console.log(`Updating teams for match ID: ${matchId}`);
+        //         let response = await fetch(`/match/update/${matchId}`, {
+        //             method: "POST",
+        //             headers: { "Content-Type": "application/json" },
+        //             body: JSON.stringify({ team1, team2 })
+        //         });
+    
+        //         let data = await response.json();
+        //         if (response.ok) {
+        //             document.getElementById("team1Display").textContent = team1;
+        //             document.getElementById("team2Display").textContent = team2;
+        //             alert("Teams updated successfully!");
+        //         } else {
+        //             throw new Error(data.error);
+        //         }
+        //     } catch (error) {
+        //         console.error("Error updating teams:", error);
+        //     }
+        // }
+    
+        // async function updateMatch() {
+        //     if (!matchStarted) {
+        //         alert("🚨 Please start the match first! 🚨");
+        //         return;
+        //     }
+    
+        //     let goals1 = parseInt(document.getElementById("score1-input").value) || 0;
+        //     let goals2 = parseInt(document.getElementById("score2-input").value) || 0;
+        //     let touchdowns1 = parseInt(document.getElementById("touchdowns1-input").value) || 0;
+        //     let touchdowns2 = parseInt(document.getElementById("touchdowns2-input").value) || 0;
+        //     let safeties1 = parseInt(document.getElementById("safeties1-input").value) || 0;
+        //     let safeties2 = parseInt(document.getElementById("safeties2-input").value) || 0;
+        //     let fouls1 = parseInt(document.getElementById("fouls1-input").value) || 0;
+        //     let fouls2 = parseInt(document.getElementById("fouls2-input").value) || 0;
+    
+        //     let totalPoints1 = (goals1 * 3) + (touchdowns1 * 6) + (safeties1 * 2) - fouls1;
+        //     let totalPoints2 = (goals2 * 3) + (touchdowns2 * 6) + (safeties2 * 2) - fouls2;
+    
+        //     document.getElementById("points1").textContent = totalPoints1;
+        //     document.getElementById("points2").textContent = totalPoints2;
+    
+        //     if (matchId) {
+        //         try {
+        //             console.log(`Updating match ID: ${matchId}`);
+        //             await fetch(`/match/update/${matchId}`, {
+        //                 method: "POST",
+        //                 headers: { "Content-Type": "application/json" },
+        //                 body: JSON.stringify({ goals1, goals2, touchdowns1, touchdowns2, safeties1, safeties2, fouls1, fouls2 })
+        //             });
+        //         } catch (error) {
+        //             console.error("Error updating match:", error);
+        //         }
+        //     }
+        // }
+    let matchId = null;
+let matchStarted = false;
+let matchTime = 0;
+let timer = null;
+let updateLog = []; // ⬅️ to store update timestamps
+
+// Function to create a new match
+async function createMatch() {
+    let team1 = document.getElementById("team1-input").value;
+    let team2 = document.getElementById("team2-input").value;
+
+    if (!team1 || !team2) {
+        alert("Please enter both team names.");
+        return;
+    }
+
+    try {
+        let response = await fetch("/match", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ team1, team2 })
+        });
+
+        let data = await response.json();
+        if (response.ok) {
+            matchId = data.match?._id;
+            console.log("Match Created with ID:", matchId);
+            document.getElementById("team1Display").textContent = team1;
+            document.getElementById("team2Display").textContent = team2;
+            alert("Match created successfully!");
+        } else {
+            throw new Error(data.error);
         }
-    
-        function startMatch() {
-            if (!matchId) {
-                alert("Please create a match first.");
-                return;
-            }
-    
-            if (!timer) {
-                matchStarted = true;
-                timer = setInterval(updateMatchTime, 5000);
-                alert("⚽ Match Started! Let the game begin!");
-            }
+    } catch (error) {
+        console.error("Error creating match:", error);
+    }
+}
+
+function startMatch() {
+    if (!matchId) {
+        alert("Please create a match first.");
+        return;
+    }
+
+    if (!timer) {
+        matchStarted = true;
+        timer = setInterval(updateMatchTime, 5000);
+        alert("⚽ Match Started! Let the game begin!");
+    }
+}
+
+function endMatch() {
+    if (timer) {
+        clearInterval(timer);
+        timer = null;
+        matchStarted = false;
+
+        updateMatch(); // Final update
+
+        // ✅ Save final update log to localStorage
+        sessionStorage.setItem("matchLog", JSON.stringify(updateLog));
+
+        setTimeout(() => {
+            showWinner();
+            alert("🏁 Match has ended!");
+        }, 500);
+    }
+}
+
+function updateMatchTime() {
+    if (matchTime < 90) {
+        matchTime += 5;
+        document.getElementById("matchTime").textContent = matchTime;
+    } else {
+        endMatch();
+    }
+}
+
+async function updateTeams() {
+    let team1 = document.getElementById("team1-input").value;
+    let team2 = document.getElementById("team2-input").value;
+
+    if (!team1 || !team2) {
+        alert("Please enter both team names.");
+        return;
+    }
+
+    if (!matchId) {
+        console.log("Match ID is null. Creating a new match...");
+        await createMatch();
+    }
+
+    if (!matchId) {
+        alert("Failed to create match. Please try again.");
+        return;
+    }
+
+    try {
+        console.log(`Updating teams for match ID: ${matchId}`);
+        let response = await fetch(`/match/update/${matchId}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ team1, team2 })
+        });
+
+        let data = await response.json();
+        if (response.ok) {
+            document.getElementById("team1Display").textContent = team1;
+            document.getElementById("team2Display").textContent = team2;
+            alert("Teams updated successfully!");
+        } else {
+            throw new Error(data.error);
         }
-    
-        function endMatch() {
-            if (timer) {
-                clearInterval(timer);
-                timer = null;
-                matchStarted = false;
-    
-                updateMatch();
-                setTimeout(() => {
-                    showWinner();
-                    alert("🏁 Match has ended!");
-                }, 500);
-            }
+    } catch (error) {
+        console.error("Error updating teams:", error);
+    }
+}
+
+// ✅ Updated function to also capture match time & real time
+async function updateMatch() {
+    if (!matchStarted) {
+        alert("🚨 Please start the match first! 🚨");
+        return;
+    }
+
+    // Capture timestamp info
+    const atMinute = matchTime;
+    const realTime = new Date().toISOString();
+
+    let goals1 = parseInt(document.getElementById("score1-input").value) || 0;
+    let goals2 = parseInt(document.getElementById("score2-input").value) || 0;
+    let touchdowns1 = parseInt(document.getElementById("touchdowns1-input").value) || 0;
+    let touchdowns2 = parseInt(document.getElementById("touchdowns2-input").value) || 0;
+    let safeties1 = parseInt(document.getElementById("safeties1-input").value) || 0;
+    let safeties2 = parseInt(document.getElementById("safeties2-input").value) || 0;
+    let fouls1 = parseInt(document.getElementById("fouls1-input").value) || 0;
+    let fouls2 = parseInt(document.getElementById("fouls2-input").value) || 0;
+
+    let totalPoints1 = (goals1 * 3) + (touchdowns1 * 6) + (safeties1 * 2) - fouls1;
+    let totalPoints2 = (goals2 * 3) + (touchdowns2 * 6) + (safeties2 * 2) - fouls2;
+
+    document.getElementById("points1").textContent = totalPoints1;
+    document.getElementById("points2").textContent = totalPoints2;
+
+    // ✅ Store update in the log
+    updateLog.push({ atMinute, realTime, goals1, goals2 });
+
+    // ✅ Save live log to localStorage so chart page can access it
+    sessionStorage.setItem("matchLog", JSON.stringify(updateLog));
+
+    console.table(updateLog);
+
+    if (matchId) {
+        try {
+            console.log(`Updating match ID: ${matchId}`);
+            await fetch(`/match/update/${matchId}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ 
+                    goals1, goals2, touchdowns1, touchdowns2, 
+                    safeties1, safeties2, fouls1, fouls2,
+                    timestamp: realTime,
+                    matchMinute: atMinute
+                })
+            });
+        } catch (error) {
+            console.error("Error updating match:", error);
         }
-    
-        function updateMatchTime() {
-            if (matchTime < 90) {
-                matchTime += 5;
-                document.getElementById("matchTime").textContent = matchTime;
-            } else {
-                endMatch();
-            }
-        }
-    
-        async function updateTeams() {
-            let team1 = document.getElementById("team1-input").value;
-            let team2 = document.getElementById("team2-input").value;
-    
-            if (!team1 || !team2) {
-                alert("Please enter both team names.");
-                return;
-            }
-    
-            if (!matchId) {
-                console.log("Match ID is null. Creating a new match...");
-                await createMatch();
-            }
-    
-            if (!matchId) {
-                alert("Failed to create match. Please try again.");
-                return;
-            }
-    
-            try {
-                console.log(`Updating teams for match ID: ${matchId}`);
-                let response = await fetch(`/match/update/${matchId}`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ team1, team2 })
-                });
-    
-                let data = await response.json();
-                if (response.ok) {
-                    document.getElementById("team1Display").textContent = team1;
-                    document.getElementById("team2Display").textContent = team2;
-                    alert("Teams updated successfully!");
-                } else {
-                    throw new Error(data.error);
-                }
-            } catch (error) {
-                console.error("Error updating teams:", error);
-            }
-        }
-    
-        async function updateMatch() {
-            if (!matchStarted) {
-                alert("🚨 Please start the match first! 🚨");
-                return;
-            }
-    
-            let goals1 = parseInt(document.getElementById("score1-input").value) || 0;
-            let goals2 = parseInt(document.getElementById("score2-input").value) || 0;
-            let touchdowns1 = parseInt(document.getElementById("touchdowns1-input").value) || 0;
-            let touchdowns2 = parseInt(document.getElementById("touchdowns2-input").value) || 0;
-            let safeties1 = parseInt(document.getElementById("safeties1-input").value) || 0;
-            let safeties2 = parseInt(document.getElementById("safeties2-input").value) || 0;
-            let fouls1 = parseInt(document.getElementById("fouls1-input").value) || 0;
-            let fouls2 = parseInt(document.getElementById("fouls2-input").value) || 0;
-    
-            let totalPoints1 = (goals1 * 3) + (touchdowns1 * 6) + (safeties1 * 2) - fouls1;
-            let totalPoints2 = (goals2 * 3) + (touchdowns2 * 6) + (safeties2 * 2) - fouls2;
-    
-            document.getElementById("points1").textContent = totalPoints1;
-            document.getElementById("points2").textContent = totalPoints2;
-    
-            if (matchId) {
-                try {
-                    console.log(`Updating match ID: ${matchId}`);
-                    await fetch(`/match/update/${matchId}`, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ goals1, goals2, touchdowns1, touchdowns2, safeties1, safeties2, fouls1, fouls2 })
-                    });
-                } catch (error) {
-                    console.error("Error updating match:", error);
-                }
-            }
-        }
-    
+    }
+}
+
         function showWinner() {
             let points1 = parseInt(document.getElementById("points1").textContent) || 0;
             let points2 = parseInt(document.getElementById("points2").textContent) || 0;
